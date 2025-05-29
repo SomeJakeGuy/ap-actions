@@ -77,3 +77,6 @@ jobs:
       ap-version: '0.6.1'
       python-version: '3.12'
 ```
+
+> [!NOTE]
+> This requires the workflow to have write access to the repository. Make sure `Settings > Actions > General > Workflow permissions` is set to `Read and write permissions`.
