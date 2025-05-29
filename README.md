@@ -53,3 +53,27 @@ jobs:
           python-version: '3.12'
 ```
 
+
+## `Eijebong/ap-actions/.github/workflows/release-apworld.yml`
+
+This is a fully fledged reusable workflow that you can use to release your apworld.
+It will package your apworld, create a default template for it and then create or update a github release
+The following example will trigger the workflow when you create a github
+release through the github UI as well as if you push a tag through git.
+
+Example:
+
+```yaml
+name: Release APWorld
+on:
+  push:
+    tags:
+      - '**'
+jobs:
+  release:
+    uses: Eijebong/ap-actions/.github/workflows/release-apworld.yml@main
+    with:
+      apworld-path: worlds/pokemon_crystal
+      ap-version: '0.6.1'
+      python-version: '3.12'
+```
