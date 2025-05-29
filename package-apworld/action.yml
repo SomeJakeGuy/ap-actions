@@ -1,0 +1,26 @@
+name: Package apworld
+description: Package an apworld for distribution
+inputs:
+  path:
+    description: The path to the apworld's folder in the repo
+    required: true
+outputs:
+  apworld:
+    description: The name of the resulting apworld
+    value: ${{ steps.package.outputs.apworld }}
+runs:
+  using: composite
+  steps:
+    - name: Clone the repo
+      uses: actions/checkout@master
+    - name: Package apworld
+      id: package
+      shell: bash
+      run: |
+        export APWORLD_NAME=$(basename "${APWORLD_FOLDER}")
+        export APWORLD_PARENT=$(dirname "${APWORLD_FOLDER}")
+
+        echo "apworld=${APWORLD_PARENT}/${APWORLD_NAME}.apworld" >> ${GITHUB_OUTPUT}
+        cd "${APWORLD_PARENT}" && zip -r "${APWORLD_NAME}.apworld" "${APWORLD_NAME}"
+      env:
+        APWORLD_FOLDER: ${{ inputs.path }}

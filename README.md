@@ -1,0 +1,55 @@
+# Apworld github actions
+
+This repository contains a bunch of github actions to help with apworld development
+
+## `Eijebong/ap-actions/fuzz`
+
+This action will take an apworld, setup a base archipelago installation and run my [fuzzer](https://github.com/Eijebong/Archipelago-fuzzer) on the world.
+
+Example:
+
+```yaml
+name: Fuzz apworld
+on:
+  push:
+  pull_request:
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Eijebong/ap-actions/fuzz@main
+        with:
+          apworld-path: worlds/pokemon_crystal
+          ap-version: '0.6.1'
+          python-version: '3.12'
+          runs: 500 # This is optional
+          yamls-per-run: 1 # This is optional
+```
+
+## `Eijebong/ap-actions/ap-tests`
+
+This action will take an apworld, setup a base archipelago installation and run the unit tests for that apworld.
+Note that unlike the original CI, this action will only run tests related to
+the apworld passed in instead of the entirety of the archipelago CI which makes
+it much faster and much less prone to getting random fill errors from core verified worlds.
+
+Example:
+
+```yaml
+name: Test apworld
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Eijebong/ap-actions/ap-tests@main
+        with:
+          apworld-path: worlds/pokemon_crystal
+          ap-version: '0.6.1'
+          python-version: '3.12'
+```
+

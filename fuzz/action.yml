@@ -1,0 +1,67 @@
+name: Fuzz an apworld
+description: Setup a base archipelago installation and fuzz the given apworld
+inputs:
+  ap-version:
+    description: The version of archipelago to use. This must match a refspec in the archipelago repository
+    required: true
+  python-version:
+    description: The python version to use
+    required: true
+  apworld-path:
+    description: The path to the apworld folder
+    required: true
+  fuzzer-commit:
+    description: The version of the fuzzer to use. It must be a valid commit in Eijebong/Archipelago-fuzzer
+    default: 08a26bc8170fa2b49f805511f499a22e626daa40
+    required: true
+  runs:
+    description: The number of generations to run
+    default: 500
+    required: true
+  yamls-per-run:
+    description: The number of YAMLs to use per generation
+    default: 1
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: Eijebong/ap-actions/package-apworld@main
+      id: package
+      with:
+        path: ${{ inputs.apworld-path }}
+
+    - uses: Eijebong/ap-actions/setup-ap@main
+      with:
+        version: ${{ inputs.ap-version }}
+        python-version: ${{ inputs.python-version }}
+
+    - name: Copy apworld in custom worlds
+      shell: bash
+      run: |
+        cp ${APWORLD_PATH} archipelago/custom_worlds/
+      env:
+        APWORLD_PATH: ${{ steps.package.outputs.apworld }}
+
+    - name: Get fuzzer
+      shell: bash
+      run: |
+        curl -SsL -o archipelago/fuzz.py https://raw.githubusercontent.com/Eijebong/Archipelago-fuzzer/${FUZZER_COMMIT}/fuzz.py
+      env:
+        FUZZER_COMMIT: ${{ inputs.fuzzer-commit }}
+
+    - name: Run fuzzer
+      shell: bash
+      run: |
+        export APWORLD_NAME=$(basename ${APWORLD_PATH%.apworld})
+        cd archipelago && uv run python fuzz.py -j 4 -g ${APWORLD_NAME} -r ${RUNS} -n ${YAMLS_PER_RUN}
+      env:
+        APWORLD_PATH: ${{ steps.package.outputs.apworld }}
+        RUNS: ${{ inputs.runs }}
+        YAMLS_PER_RUN: ${{ inputs.yamls-per-run }}
+
+    - name: Upload fuzzer failures
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: fuzz-output
+        path: archipelago/fuzz_output

@@ -1,0 +1,41 @@
+name: Test an apworld
+description: Setup a base archipelago installation and run tests for the given apworld
+inputs:
+  ap-version:
+    description: The version of archipelago to use. This must match a refspec in the archipelago repository
+    required: true
+  python-version:
+    description: The python version to use
+    required: true
+  apworld-path:
+    description: The path to the apworld folder
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@master
+
+    - uses: Eijebong/ap-actions/setup-ap@main
+      with:
+        version: ${{ inputs.ap-version }}
+        python-version: ${{ inputs.python-version }}
+
+    - name: Copy apworld in worlds
+      shell: bash
+      run: |
+        cp -R ${APWORLD_PATH} archipelago/worlds/
+      env:
+        APWORLD_PATH: ${{ inputs.apworld-path }}
+
+    - name: Copy test runner
+      shell: bash
+      run: |
+        cp ${GITHUB_ACTION_PATH}/run_tests.py archipelago/run_tests.py
+
+    - name: Run tests
+      shell: bash
+      run: |
+        export APWORLD_NAME=$(basename ${APWORLD_PATH%.apworld})
+        cd archipelago && uv run python run_tests.py ${APWORLD_NAME}
+      env:
+        APWORLD_PATH: ${{ inputs.apworld-path }}
