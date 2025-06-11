@@ -10,10 +10,15 @@ inputs:
   apworld-path:
     description: The path to the apworld folder
     required: true
+  checkout:
+    description: Whether or not to run the checkout step. Can be useful to disable if you want to run tests on a dirty repo
+    default: true
+    required: true
 runs:
   using: composite
   steps:
     - uses: actions/checkout@master
+      if: ${{ inputs.checkout != 'false' }}
 
     - uses: Eijebong/ap-actions/setup-ap@main
       with:

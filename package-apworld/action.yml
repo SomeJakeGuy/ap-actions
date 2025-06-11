@@ -8,11 +8,17 @@ outputs:
   apworld:
     description: The name of the resulting apworld
     value: ${{ steps.package.outputs.apworld }}
+  checkout:
+    description: Whether or not to run the checkout step. Can be useful to disable if you want to package the apworld with a dirty repo
+    default: true
+    required: true
 runs:
   using: composite
   steps:
     - name: Clone the repo
       uses: actions/checkout@master
+      if: ${{ inputs.checkout != 'false' }}
+
     - name: Package apworld
       id: package
       shell: bash

@@ -22,6 +22,10 @@ inputs:
     description: The number of YAMLs to use per generation
     default: 1
     required: true
+  checkout:
+    description: Whether or not to run the checkout step. Can be useful to disable if you want to run the fuzzer on a dirty repo
+    default: true
+    required: true
 runs:
   using: composite
   steps:
@@ -29,6 +33,7 @@ runs:
       id: package
       with:
         path: ${{ inputs.apworld-path }}
+        checkout: ${{ inputs.checkout }}
 
     - uses: Eijebong/ap-actions/setup-ap@main
       with:
