@@ -60,7 +60,10 @@ if __name__ == "__main__":
     suite = unittest.TestSuite()
     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(WorldTest))
     suite.addTests(unittest.defaultTestLoader.discover("test/general", top_level_dir="."))
-    suite.addTests(unittest.defaultTestLoader.discover(f"worlds/{apworld_name}/test", top_level_dir="."))
+
+    apworld_test_folder = f"worlds/{apworld_name}/test"
+    if os.path.isdir(apworld_test_folder):
+        suite.addTests(unittest.defaultTestLoader.discover(apworld_test_folder, top_level_dir="."))
     results = runner.run(suite)
     if not results.wasSuccessful():
         sys.exit(1)
