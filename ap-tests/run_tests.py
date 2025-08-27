@@ -1,6 +1,7 @@
 import sys
 import os
 import unittest
+import contextlib
 
 if len(sys.argv) != 2:
     print("Usage: tests.py apworld_name")
@@ -39,11 +40,16 @@ for loaded_world in loaded_worlds:
             del AutoPatchRegister.patch_types[loaded_world]
 
 
+class SkipContext:
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        return True  # Suppress all exceptions
+
 class FilteredTestCase(unittest.TestCase):
     def subTest(self, msg=None, **params):
         if 'game' in params and params['game'] != world_name:
-            self.skipTest("Game isn't what's being tested")
-            return
+            return SkipContext()
 
         return super().subTest(msg, **params)
 
