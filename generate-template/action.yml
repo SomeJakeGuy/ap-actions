@@ -14,6 +14,10 @@ inputs:
     description: The name of the apworld. This should only be set if the folder storing your apworld in the repository isn't the same
     type: string
     default: ""
+  checkout:
+    description: Whether or not to run the checkout step.
+    default: true
+    required: true
 outputs:
   template:
     description: The path to the generated template YAML
@@ -26,6 +30,7 @@ runs:
       with:
         path: ${{ inputs.apworld-path }}
         apworld-name: ${{ inputs.apworld-name }}
+        checkout: ${{ inputs.checkout }}
 
     - uses: Eijebong/ap-actions/setup-ap@main
       with:
