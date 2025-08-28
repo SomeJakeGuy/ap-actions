@@ -1,7 +1,6 @@
 import sys
 import os
 import unittest
-import contextlib
 
 if len(sys.argv) != 2:
     print("Usage: tests.py apworld_name")
