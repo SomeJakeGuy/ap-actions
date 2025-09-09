@@ -76,5 +76,6 @@ jobs:
           artifacts: '*'
           allowUpdates: true
           prerelease: ${{ inputs.prerelease }}
+          immutableCreate: true
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
