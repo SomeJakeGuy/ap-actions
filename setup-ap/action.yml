@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Get AP Tag
       id: getAPtag
-      run: |
+      run:
         shell: bash
         if [[ "${{inputs.version}}" == "latest" ]]; then
           echo "::set-output name=releasetag::$(curl -s https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq '.tag_name' | sed 's/\"//g')"
