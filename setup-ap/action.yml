@@ -30,7 +30,7 @@ runs:
       id: clone
       with:
         repository: ArchipelagoMW/Archipelago
-        ref: ${{inputs.version}}
+        ref: ${{steps.getAPtag.outputs.releasetag}}
         path: archipelago
     - name: Install uv
       uses: astral-sh/setup-uv@v6
