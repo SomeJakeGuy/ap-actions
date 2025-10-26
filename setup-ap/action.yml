@@ -16,6 +16,7 @@ runs:
   steps:
     - name: Get AP Tag
       id: getAPtag
+      
       run: |
         if [[ "${{inputs.version}}" == "latest" ]]; then
           echo "::set-output name=releasetag::$(curl -s https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq '.tag_name' | sed 's/\"//g')"
@@ -23,6 +24,7 @@ runs:
         if [[ "${{inputs.version}}" != "latest" ]]; then
           echo "::set-output name=releasetag::${{inputs.version}}"
         fi
+        shell: bash
     - name: Echo chosen releasetag
       run: echo "Chosen AP Release version to grab: ${{steps.getAPtag.outputs.releasetag}}"
     - name: Clone archipelago
