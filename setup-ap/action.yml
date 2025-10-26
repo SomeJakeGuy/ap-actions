@@ -25,6 +25,7 @@ runs:
           echo "::set-output name=releasetag::${{ inputs.version }}"
         fi
     - name: Echo chosen releasetag
+      shell: bash
       run: |
         echo "Chosen AP Release version to grab: ${{ steps.getAPtag.outputs.releasetag }}"
     - name: Clone archipelago
