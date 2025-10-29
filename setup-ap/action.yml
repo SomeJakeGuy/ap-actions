@@ -18,7 +18,7 @@ runs:
       id: getAPtag
       shell: bash
       run: |
-        if [[ "${{inputs.version}}" == "latest" ]]; then
+        if [[ "${{ inputs.version }}" == "latest" ]]; then
           echo "releasetag=$(curl -s https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq -r '.tag_name' )" >> $GITHUB_OUTPUT
         fi
         if [[ "${{inputs.version}}" != "latest" ]]; then
