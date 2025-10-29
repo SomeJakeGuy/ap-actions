@@ -11,7 +11,7 @@ jobs:
       with:
         python-version: "~3.12.6"
         cache: pip
-    - name: Fuzzer-Check-1-yml
+    - name: Setup-AP-Check
       uses: SomeJakeGuy/ap-actions/setup-ap@SJG-APInputVersion
       with:
         version: 'latest'
