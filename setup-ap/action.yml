@@ -24,10 +24,6 @@ runs:
         if [[ "${{inputs.version}}" != "latest" ]]; then
           echo "releasetag=${{ inputs.version }}" >> $GITHUB_OUTPUT
         fi
-    - name: Echo chosen releasetag
-      shell: bash
-      run: |
-        echo "Chosen AP Release version to grab: ${{ steps.getAPtag.outputs.releasetag }}"
     - name: Clone archipelago
       uses: actions/checkout@master
       id: clone
