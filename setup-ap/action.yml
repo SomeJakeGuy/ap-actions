@@ -20,8 +20,7 @@ runs:
       run: |
         if [[ "${{ inputs.version }}" == "latest" ]]; then
           echo "releasetag=$(curl -s https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq -r '.tag_name' )" >> $GITHUB_OUTPUT
-        fi
-        if [[ "${{inputs.version}}" != "latest" ]]; then
+        else
           echo "releasetag=${{ inputs.version }}" >> $GITHUB_OUTPUT
         fi
     - name: Clone archipelago
