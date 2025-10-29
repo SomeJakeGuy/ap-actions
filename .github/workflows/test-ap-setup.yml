@@ -1,4 +1,4 @@
-name: Fuzz-World-Single-Yaml
+name: Test-AP-Setup
 on:
   workflow_dispatch:
 
@@ -12,11 +12,7 @@ jobs:
         python-version: "~3.12.6"
         cache: pip
     - name: Fuzzer-Check-1-yml
-      uses: Eijebong/ap-actions/fuzz@main
+      uses: SomeJakeGuy/ap-actions/setup-ap@SJG-APInputVersion
       with:
-        apworld-path: worlds/ahit
-        ap-version: 'latest'
+        version: 'latest'
         python-version: '3.12'
-        runs: 15000
-        yamls-per-run: 1
-        dump-ignored: true
