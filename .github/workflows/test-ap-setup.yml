@@ -20,5 +20,5 @@ jobs:
     - name: Setup-AP-Check
       uses: SomeJakeGuy/ap-actions/setup-ap@SJG-APInputVersion
       with:
-        version: 'latest'
+        version: ${{ inputs.version }}
         python-version: '3.12'
