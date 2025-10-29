@@ -1,6 +1,10 @@
 name: Test-AP-Setup
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: The version of archipelago to use. This must either match a refspec in the archipelago repository or be 'latest' to match the latest stable release.
+        required: true
 
 jobs:
   Setup-AP:
