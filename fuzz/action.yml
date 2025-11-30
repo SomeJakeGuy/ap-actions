@@ -48,7 +48,7 @@ runs:
         apworld-name: ${{ inputs.apworld-name }}
         checkout: ${{ inputs.checkout }}
 
-    - uses: Eijebong/ap-actions/setup-ap@main
+    - uses: SomeJakeGuy/ap-actions/setup-ap@main
       with:
         version: ${{ inputs.ap-version }}
         python-version: ${{ inputs.python-version }}
