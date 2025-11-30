@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     apworld_test_folder = f"worlds/{apworld_name}/test"
     if os.path.isdir(apworld_test_folder):
-        suite.addTests(unittest.defaultTestLoader.discover(apworld_test_folder, top_level_dir="."))
+        suite.addTests(unittest.defaultTestLoader.discover(apworld_test_folder, top_level_dir=".", pattern="[Tt]est*.py"))
     results = runner.run(suite)
     if not results.wasSuccessful():
         sys.exit(1)

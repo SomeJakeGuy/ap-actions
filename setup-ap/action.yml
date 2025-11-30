@@ -17,11 +17,9 @@ runs:
     - name: Get AP Tag
       id: getAPtag
       shell: bash
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         if [[ "${{ inputs.version }}" == "latest" ]]; then
-          echo "releasetag=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq -r '.tag_name' )" >> $GITHUB_OUTPUT
+          echo "releasetag=$(curl -fsL -H "Authorization: Bearer ${{ github.token }}" https://api.github.com/repos/ArchipelagoMW/Archipelago/releases/latest | jq -r '.tag_name' )" >> $GITHUB_OUTPUT
         else
           echo "releasetag=${{ inputs.version }}" >> $GITHUB_OUTPUT
         fi
