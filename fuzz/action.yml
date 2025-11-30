@@ -70,12 +70,7 @@ runs:
     - name: Run fuzzer
       shell: bash
       run: |
-        if [[ ${{ inputs.dump-ignored }} == 'true' ]]; then
-          cd archipelago && uv run python fuzz.py -j 4 -g ${APWORLD_NAME} -r ${RUNS} -n ${YAMLS_PER_RUN} -m ${META} --dump-ignored
-        fi
-        if [[ ${{ inputs.dump-ignored }} == 'false' ]]; then
-          cd archipelago && uv run python fuzz.py -j 4 -g ${APWORLD_NAME} -r ${RUNS} -n ${YAMLS_PER_RUN} -m ${META}
-        fi
+          cd archipelago && uv run python fuzz.py -j 4 -g ${APWORLD_NAME} -r ${RUNS} -n ${YAMLS_PER_RUN} ${META:+-m $META} ${DUMP_IGNORED:+--dump-ignored}
       env:
         APWORLD_NAME: ${{ steps.package.outputs.apworld-name }}
         RUNS: ${{ inputs.runs }}
